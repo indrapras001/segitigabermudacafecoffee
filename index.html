@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Segitiga Bermuda Cafe</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;0,700;1,700&display=swap" rel="stylesheet" />
+
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <!-- My Style -->
+    <link rel="stylesheet" href="css/style.css" />
+
+    <!-- AlpineJS -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- Apps -->
+    <script src="src/app.js" async></script>
+
+    <!-- Midtrans -->
+    <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="SB-Mid-client-L4SAkkygtQyUALrw"></script>
+  </head>
+
+  <body>
+    <!-- Navbar start -->
+    <nav class="navbar" x-data>
+      <a href="#" class="navbar-logo">Segitiga Bermuda<span> Cafe</span></a>
+
+      <div class="navbar-nav">
+        <a href="#home">Home</a>
+        <a href="#menu">Menu</a>
+        <a href="#products">Produk</a>
+        <a href="#about">Tentang Kami</a>
+        <a href="#contact">Kontak</a>
+      </div>
+
+      <div class="navbar-extra">
+        <a href="#" id="search-button"><i data-feather="search"></i></a>
+        <a href="#" id="shopping-cart-button">
+          <i data-feather="shopping-cart"></i>
+          <span class="quantity-badge" x-show="$store.cart.quantity" x-text="$store.cart.quantity"></span>
+        </a>
+        <a href="#" id="hamburger-menu"><i data-feather="menu"></i></a>
+      </div>
+
+      <!-- Search Form start -->
+      <div class="search-form">
+        <input type="search" id="search-box" placeholder="search here..." />
+        <label for="search-box"><i data-feather="search"></i></label>
+      </div>
+      <!-- Search Form end -->
+
+      <!-- Shopping Cart start -->
+      <div class="shopping-cart">
+        <template x-for="(item, index) in $store.cart.items" x-keys="index">
+          <div class="cart-item">
+            <img :src="`img/products/${item.img}`" :alt="item.name" />
+            <div class="item-detail">
+              <h3 x-text="item.name"></h3>
+              <div class="item-price">
+                <span x-text="rupiah(item.price)"></span>&times;
+                <button id="remove" @click="$store.cart.remove(item.id)">&minus;</button>
+                <span x-text="item.quantity"></span>
+                <button id="add" @click="$store.cart.add(item)">&plus;</button> &equals;
+                <span x-text="rupiah(item.total)"></span>
+              </div>
+            </div>
+          </div>
+        </template>
+        <h4 x-show="!$store.cart.items.length" style="margin-top: 1rem">Customer Cart</h4>
+        <h4 x-show="$store.cart.items.length">Total Pembayaran : <span x-text="rupiah($store.cart.total)"></span></h4>
+
+        <div class="form-container" x-show="$store.cart.items.length">
+          <form action="" id="checkoutForm">
+            <input type="hidden" name="items" x-model="JSON.stringify($store.cart.items)" />
+            <input type="hidden" name="total" x-model="$store.cart.total" />
+            <h5>Customer Detail</h5>
+
+            <label for="name">
+              <span>Name</span>
+              <input type="text" name="name" id="name" />
+            </label>
+
+            <label for="email">
+              <span>Email</span>
+              <input type="text" name="email" id="email" />
+            </label>
+
+            <label for="phone">
+              <span>Phone</span>
+              <input type="number" name="phone" id="phone" autocomplete="off" />
+            </label>
+
+            <button class="checkout-button disabled" type="submit" id="checkout-button" value="checkout">CheckOut</button>
+          </form>
+        </div>
+      </div>
+      <!-- Shopping Cart end -->
+    </nav>
+    <!-- Navbar end -->
+
+    <!-- Hero Section start -->
+    <section class="hero" id="home">
+      <main class="content">
+        <h1>Welcome To Segitiga Bermuda <span>Cafe Coffee & Eatery</span></h1>
+      </main>
+    </section>
+    <!-- Hero Section end -->
+
+    <!-- About Section start -->
+    <section id="about" class="about">
+      <h2><span>Tentang</span> Kami</h2>
+
+      <div class="row">
+        <div class="about-img">
+          <img src="img/tentang-kami.jpg" alt="Tentang Kami" />
+        </div>
+        <div class="content">
+          <h3>Kenapa kamu harus dateng ke kedai kami?</h3>
+          <p>Segitiga Bermuda Coffee & Eatery merupakan tempat yang asik untuk nongkrong bareng keluarga, pacar, teman, dan saudara. Coffee shop kami terletak di daerah Pamulang, Tangerang Selatan.</p>
+
+          <p>Coffee shop kami buka setiap hari mulai dari pukul 08.00 pagi sampai pukul 00.00 dini hari untuk hari sabtu dan minggu, lalu untuk hari senin hingga jumat kami buka mulai pukul 10.00 pagi sampai pukul 00.00 dini hari.</p>
+          <p>Coffee shop kami menyediakan berbagai pilihan menu makanan dan minuman :</p>
+          <p>Menu makanan di tempat kami yang tersedia yaitu Indonesian Food, Western Food, Others Sharing, Others Burger, Dessert, Dan Pastry.</p>
+          <p>Menu minuman di tempat kami yang tersedia yaitu Signature Coffee, Coffee Series, Non Coffee Series, Tea Series, dan Mocktail Series.</p>
+        </div>
+      </div>
+    </section>
+    <!-- About Section end -->
+
+    <!-- Menu Section start -->
+    <section id="menu" class="menu">
+      <h2><span>Menu</span> Kami</h2>
+      <p>Segitiga Bermuda Coffee & Eatery menyediakan berbagai menu Makanan dan Minuman dengan harga terjangkau</p>
+
+      <div class="row">
+        <div class="menu-card">
+          <img src="img/menu/A1.jpg" alt="Indonesian Food" class="menu-card-img" />
+          <h3 class="menu-card-title">Menu Nasi Goreng</h3>
+          <p class="menu-card-price">IDR 40K - IDR 45K</p>
+        </div>
+        <div class="menu-card">
+          <img src="img/menu/A2.jpg" alt="Indonesian Food" class="menu-card-img" />
+          <h3 class="menu-card-title">Menu Sop Food</h3>
+          <p class="menu-card-price">IDR 85K</p>
+        </div>
+        <div class="menu-card">
+          <img src="img/menu/A3.jpg" alt="Indonesian Food" class="menu-card-img" />
+          <h3 class="menu-card-title">Menu Chicken Food</h3>
+          <p class="menu-card-price">IDR 35K - IDR 45K</p>
+        </div>
+        <div class="menu-card">
+          <img src="img/menu/A4.jpg" alt="Signature Coffee" class="menu-card-img" />
+          <h3 class="menu-card-title">Menu Signature Coffee</h3>
+          <p class="menu-card-price">IDR 23K - IDR 25K</p>
+        </div>
+        <div class="menu-card">
+          <img src="img/menu/A5.jpg" alt="Coffee Series" class="menu-card-img" />
+          <h3 class="menu-card-title">Menu Coffee Series</h3>
+          <p class="menu-card-price">IDR 21K - IDR 50K</p>
+        </div>
+        <div class="menu-card">
+          <img src="img/menu/A6.jpg" alt="Non Coffee Series" class="menu-card-img" />
+          <h3 class="menu-card-title">Menu Non Coffee Series</h3>
+          <p class="menu-card-price">IDR 25K - IDR 32K</p>
+        </div>
+        <div class="menu-card">
+          <img src="img/menu/A7.jpg" alt="Tea Series" class="menu-card-img" />
+          <h3 class="menu-card-title">Menu Teh Series</h3>
+          <p class="menu-card-price">IDR 10K - IDR 30K</p>
+        </div>
+        <div class="menu-card">
+          <img src="img/menu/A8.jpg" alt="Mocktail Series" class="menu-card-img" />
+          <h3 class="menu-card-title">Menu Mocktail</h3>
+          <p class="menu-card-price">IDR 27K - IDR 29K</p>
+        </div>
+        <div class="menu-card">
+          <img src="img/menu/A9.jpg" alt="Western Food" class="menu-card-img" />
+          <h3 class="menu-card-title">Menu Western Pasta</h3>
+          <p class="menu-card-price">IDR 41K - IDR 49K</p>
+        </div>
+        <div class="menu-card">
+          <img src="img/menu/A10.jpg" alt="Westren Food" class="menu-card-img" />
+          <h3 class="menu-card-title">Menu Western Steak</h3>
+          <p class="menu-card-price">IDR 70K - IDR 150K</p>
+        </div>
+        <div class="menu-card">
+          <img src="img/menu/A11.jpg" alt="Westren Food" class="menu-card-img" />
+          <h3 class="menu-card-title">Menu Western Chicken</h3>
+          <p class="menu-card-price">IDR 53K</p>
+        </div>
+        <div class="menu-card">
+          <img src="img/menu/A12.jpg" alt="Dessert" class="menu-card-img" />
+          <h3 class="menu-card-title">Menu Dessert</h3>
+          <p class="menu-card-price">IDR 10K - IDR 34K</p>
+        </div>
+        <div class="menu-card">
+          <img src="img/menu/A13.jpg" alt="Pastry" class="menu-card-img" />
+          <h3 class="menu-card-title">Menu Pastry</h3>
+          <p class="menu-card-price">IDR 23K - IDR 38K</p>
+        </div>
+        <div class="menu-card">
+          <img src="img/menu/A15.jpg" alt="Others Sharing" class="menu-card-img" />
+          <h3 class="menu-card-title">Menu Others Sharing</h3>
+          <p class="menu-card-price">IDR 25K - IDR 57K</p>
+        </div>
+        <div class="menu-card">
+          <img src="img/menu/A16.jpg" alt="Others Burger" class="menu-card-img" />
+          <h3 class="menu-card-title">Menu Others Burger</h3>
+          <p class="menu-card-price">IDR 30K - IDR 50K</p>
+        </div>
+      </div>
+    </section>
+    <!-- Menu Section end -->
+
+    <!-- Products Section start -->
+    <section class="products" id="products" x-data="products">
+      <h2><span>Produk Unggulan</span> Kami</h2>
+      <p>Segitiga Bermuda Coffee & Eatery menyajikan produk Unggulan yang harus kamu coba</p>
+
+      <div class="row">
+        <template x-for="(item, index) in items" x-key="index">
+          <div class="product-card">
+            <div class="product-icons">
+              <a href="#" @click.prevent="$store.cart.add(item)">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <use href="img/feather-sprite.svg#shopping-cart" />
+                </svg>
+              </a>
+              <a href="#" class="item-detail-button">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <use href="img/feather-sprite.svg#eye" />
+                </svg>
+              </a>
+            </div>
+            <div class="product-image">
+              <img :src="`img/products/${item.img}`" :alt="item.name" />
+            </div>
+            <div class="product-content">
+              <h3 x-text="item.name"></h3>
+              <div class="product-stars">
+                <svg width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <use href="img/feather-sprite.svg#star" />
+                </svg>
+                <svg width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <use href="img/feather-sprite.svg#star" />
+                </svg>
+                <svg width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <use href="img/feather-sprite.svg#star" />
+                </svg>
+                <svg width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <use href="img/feather-sprite.svg#star" />
+                </svg>
+                <svg width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <use href="img/feather-sprite.svg#star" />
+                </svg>
+              </div>
+              <div class="product-price" x-text="rupiah(item.price)"></div>
+            </div>
+          </div>
+        </template>
+      </div>
+    </section>
+    <!-- Products Section end -->
+
+    <!-- Contact Section start -->
+    <section id="contact" class="contact">
+      <h2><span>Kontak</span> Kami</h2>
+      <p>Kamu bisa datang langsung ke Coffee shop kami yang berada di daerah Pamulang Raya, Tangerang Selatan melalui Google Maps kami</p>
+
+      <div class="row">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.414424341462!2d106.7385237!3d-6.3403358999999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69efecfbed3b65%3A0x768a72971d539c9f!2sSegitiga%20Bermuda%20Coffee%20%26%20Eatery!5e0!3m2!1sid!2sid!4v1709985931846!5m2!1sid!2sid"
+          width="600"
+          height="450"
+          style="border: 0"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+
+        <form action="">
+          <div class="input-group">
+            <i data-feather="user"></i>
+            <input type="text" placeholder="Nama" />
+          </div>
+          <div class="input-group">
+            <i data-feather="phone"></i>
+            <input type="text" placeholder="No Hp" />
+          </div>
+          <button type="submit" class="btn">Kirim Pesan</button>
+        </form>
+      </div>
+    </section>
+    <!-- Contact Section end -->
+
+    <!-- Footer start -->
+    <footer>
+      <div class="socials">
+        <a href="https://wa.me/081382152673"><i data-feather="phone"></i></a>
+        <a href="https://www.instagram.com/segitigabermuda.coffee?igsh=MWZyNnhnejQyeXRmcA%3D%3D"><i data-feather="instagram"></i></a>
+      </div>
+
+      <div class="links">
+        <a href="#home">Home</a>
+        <a href="#menu">Menu</a>
+        <a href="#about">Tentang Kami</a>
+        <a href="#contact">Kontak</a>
+      </div>
+
+      <div class="credit">
+        <p>Created by <a href="">segitigabermudacafe</a> | &copy; 2023.</p>
+      </div>
+    </footer>
+    <!-- Footer end -->
+
+    <!-- Modal Box Item Detail start -->
+    <div class="modal" id="item-detail-modal">
+      <div class="modal-container">
+        <a href="#" class="close-icon"><i data-feather="x"></i></a>
+        <div class="modal-content">
+          <img src="img/products/P1.jpg" alt="Product 1" />
+          <div class="product-content">
+            <h3>Kopi Bermuda</h3>
+            <p>Menu Coffee ini merupakan salah satu menu dari Signature Coffee</p>
+            <div class="product-stars">
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star" class="star-full"></i>
+            </div>
+            <div class="product-price">IDR 23K</div>
+            <a href="#"><i data-feather="shopping-cart"></i> <span>add to cart</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal Box Item Detail end -->
+
+    <!-- Feather Icons -->
+    <script>
+      feather.replace();
+    </script>
+
+    <!-- My Javascript -->
+    <script src="js/script.js"></script>
+  </body>
+</html>
